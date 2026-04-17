@@ -43,6 +43,18 @@ class DemoSeeder extends Seeder
         'Department Head', 'Support Staff', 'Librarian',
     ];
 
+    private array $firstNames = ['James', 'Maria', 'John', 'Sarah', 'David', 'Emily', 'Michael', 'Lisa', 'Robert', 'Anna'];
+    private array $lastNames  = ['Smith', 'Johnson', 'Williams', 'Brown', 'Jones', 'Garcia', 'Miller', 'Davis', 'Wilson', 'Taylor'];
+    private array $sentences  = [
+        'Needs replacement soon.',
+        'Purchased with grant funding.',
+        'Requires annual calibration.',
+        'Shared between departments.',
+        'Under warranty until next year.',
+        'Donated by parent association.',
+        'Used for advanced classes only.',
+    ];
+
     public function run(): void
     {
         $statuses = AssetStatus::withoutGlobalScopes()->get();
@@ -82,8 +94,8 @@ class DemoSeeder extends Seeder
         $institution = Institution::create([
             'name'      => $name,
             'email'     => $adminEmail,
-            'phone'     => fake()->phoneNumber(),
-            'address'   => fake()->address(),
+            'phone'     => '+1-' . rand(200, 999) . '-' . rand(200, 999) . '-' . rand(1000, 9999),
+            'address'   => rand(100, 999) . ' Main St, City, ST ' . rand(10000, 99999),
             'is_active' => true,
         ]);
 
@@ -104,8 +116,8 @@ class DemoSeeder extends Seeder
         for ($i = 0; $i < 5; $i++) {
             $person = ResponsiblePerson::create([
                 'institution_id' => $institution->id,
-                'name'           => fake()->name(),
-                'contact'        => fake()->phoneNumber(),
+                'name'           => $this->firstNames[array_rand($this->firstNames)] . ' ' . $this->lastNames[array_rand($this->lastNames)],
+                'contact'        => '+1-' . rand(200, 999) . '-' . rand(200, 999) . '-' . rand(1000, 9999),
                 'position'       => $this->positions[array_rand($this->positions)],
             ]);
             $personIds[] = $person->id;
@@ -146,7 +158,7 @@ class DemoSeeder extends Seeder
                 $branch = Branch::create([
                     'institution_id' => $institution->id,
                     'name'           => $branchName,
-                    'address'        => fake()->address(),
+                    'address'        => rand(100, 999) . ' ' . $branchName . ' Ave, City, ST ' . rand(10000, 99999),
                     'is_active'      => true,
                 ]);
 
@@ -185,11 +197,11 @@ class DemoSeeder extends Seeder
                     'category_id'    => $categoryIds[array_rand($categoryIds)],
                     'status_id'      => $statusIds[array_rand($statusIds)],
                     'name'           => $this->assetNames[array_rand($this->assetNames)] . ' ' . strtoupper(Str::random(4)),
-                    'serial_number'  => strtoupper(Str::random(3)) . fake()->numerify('#####'),
+                    'serial_number'  => strtoupper(Str::random(3)) . rand(10000, 99999),
                     'qr_code'        => Str::uuid()->toString(),
-                    'purchase_date'  => fake()->dateTimeBetween('-3 years', 'now')->format('Y-m-d'),
-                    'purchase_value' => round(fake()->randomFloat(2, 50, 5000), 2),
-                    'notes'          => fake()->optional(0.3)->sentence(),
+                    'purchase_date'  => date('Y-m-d', strtotime('-' . rand(0, 1095) . ' days')),
+                    'purchase_value' => round(rand(50, 500000) / 100, 2),
+                    'notes'          => rand(1, 10) <= 3 ? $this->sentences[array_rand($this->sentences)] : null,
                     'created_at'     => $now,
                     'updated_at'     => $now,
                 ];
@@ -226,9 +238,9 @@ class DemoSeeder extends Seeder
                 'institution_id' => $institution->id,
                 'from_room_id'   => $fromRoomId,
                 'to_room_id'     => $toRoomId,
-                'transferred_by' => fake()->name(),
-                'transfer_date'  => fake()->dateTimeBetween('-1 year', 'now')->format('Y-m-d'),
-                'notes'          => fake()->optional(0.6)->sentence(),
+                'transferred_by' => $this->firstNames[array_rand($this->firstNames)] . ' ' . $this->lastNames[array_rand($this->lastNames)],
+                'transfer_date'  => date('Y-m-d', strtotime('-' . rand(0, 365) . ' days')),
+                'notes'          => rand(1, 10) <= 6 ? $this->sentences[array_rand($this->sentences)] : null,
                 'created_at'     => $now,
                 'updated_at'     => $now,
             ];
