@@ -23,18 +23,18 @@ class AssetImporter extends Importer
             ImportColumn::make('room_id')
                 ->label('Room Name')
                 ->requiredMapping()
-                ->resolveUsing(fn (string $state) => Room::where('name', $state)
+                ->castStateUsing(fn (string $state) => Room::where('name', $state)
                     ->where('institution_id', app('current_institution_id'))
                     ->value('id')),
             ImportColumn::make('category_id')
                 ->label('Category Name')
-                ->resolveUsing(fn (string $state) => AssetCategory::where('name', $state)
+                ->castStateUsing(fn (string $state) => AssetCategory::where('name', $state)
                     ->where('institution_id', app('current_institution_id'))
                     ->value('id')),
             ImportColumn::make('status_id')
                 ->label('Status Name')
                 ->requiredMapping()
-                ->resolveUsing(fn (string $state) => AssetStatus::withoutGlobalScopes()
+                ->castStateUsing(fn (string $state) => AssetStatus::withoutGlobalScopes()
                     ->where('name', $state)
                     ->where(fn ($q) => $q->whereNull('institution_id')
                         ->orWhere('institution_id', app('current_institution_id')))
@@ -45,9 +45,13 @@ class AssetImporter extends Importer
         ];
     }
 
+    public function resolveRecord(): Asset
+    {
+        return new Asset();
+    }
+
     protected function beforeSave(): void
     {
-        // Generate QR code token if not provided
         if (empty($this->data['qr_code'])) {
             $this->data['qr_code'] = Str::uuid()->toString();
         }

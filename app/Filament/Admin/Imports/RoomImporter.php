@@ -20,15 +20,20 @@ class RoomImporter extends Importer
             ImportColumn::make('room_number')->rules(['nullable', 'string', 'max:50']),
             ImportColumn::make('branch_id')
                 ->label('Branch Name')
-                ->resolveUsing(fn (string $state) => Branch::where('name', $state)
+                ->castStateUsing(fn (string $state) => Branch::where('name', $state)
                     ->where('institution_id', app('current_institution_id'))
                     ->value('id')),
             ImportColumn::make('responsible_person_id')
                 ->label('Responsible Person Name')
-                ->resolveUsing(fn (string $state) => ResponsiblePerson::where('name', $state)
+                ->castStateUsing(fn (string $state) => ResponsiblePerson::where('name', $state)
                     ->where('institution_id', app('current_institution_id'))
                     ->value('id')),
         ];
+    }
+
+    public function resolveRecord(): Room
+    {
+        return new Room();
     }
 
     public static function getCompletedNotificationBody(Import $import): string

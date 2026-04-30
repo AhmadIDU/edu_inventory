@@ -19,6 +19,11 @@ class AssetStatusImporter extends Importer
         ];
     }
 
+    public function resolveRecord(): AssetStatus
+    {
+        return new AssetStatus();
+    }
+
     protected function beforeSave(): void
     {
         // Never allow importing system statuses — custom only

@@ -20,6 +20,11 @@ class ResponsiblePersonImporter extends Importer
         ];
     }
 
+    public function resolveRecord(): ResponsiblePerson
+    {
+        return new ResponsiblePerson();
+    }
+
     public static function getCompletedNotificationBody(Import $import): string
     {
         return 'Responsible persons import complete: ' . number_format($import->successful_rows) . ' rows.';

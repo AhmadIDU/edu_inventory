@@ -19,6 +19,11 @@ class AssetCategoryImporter extends Importer
         ];
     }
 
+    public function resolveRecord(): AssetCategory
+    {
+        return new AssetCategory();
+    }
+
     public static function getCompletedNotificationBody(Import $import): string
     {
         return 'Categories import complete: ' . number_format($import->successful_rows) . ' rows.';

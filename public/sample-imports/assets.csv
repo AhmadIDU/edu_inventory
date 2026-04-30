@@ -1,0 +1,6 @@
+name,serial_number,Room Name,Category Name,Status Name,purchase_date,purchase_value,notes
+Dell Laptop,SN-LAP-001,Classroom,IT Equipment,Active / In Use,2024-01-15,899.99,
+Whiteboard Marker Set,SN-WB-002,Classroom,,,2023-06-01,25.50,Shared between departments.
+Lab Microscope,SN-MIC-003,Lab,Lab Equipment,In Storage,2022-09-10,450.00,Requires annual calibration.
+Office Chair,SN-CHR-004,Office,Furniture,Active / In Use,2023-03-20,199.99,
+Projector,SN-PRJ-005,Library,Audio/Visual,Under Maintenance,2021-11-05,750.00,Needs replacement soon.

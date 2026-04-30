@@ -20,6 +20,11 @@ class BranchImporter extends Importer
         ];
     }
 
+    public function resolveRecord(): Branch
+    {
+        return new Branch();
+    }
+
     protected function beforeSave(): void
     {
         // institution_id is auto-stamped by the model's booted() method via InstitutionScope
