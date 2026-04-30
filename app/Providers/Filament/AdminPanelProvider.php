@@ -37,6 +37,7 @@ class AdminPanelProvider extends PanelProvider
                 AdminDashboard::class,
             ])
             ->plugins([])
+            ->databaseNotifications()
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
